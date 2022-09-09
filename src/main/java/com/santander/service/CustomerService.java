@@ -1,8 +1,8 @@
 package com.santander.service;
 
-import com.santander.IdGenerator;
 import com.santander.dto.UserPayloadRequest;
 import com.santander.entity.Transaction;
+import com.santander.helper.IdGenerator;
 import com.santander.repository.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

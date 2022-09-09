@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @Slf4j
@@ -95,6 +96,24 @@ public class CustomerRestControllerTest {
 
     }
 
+    @Test
+    public void transferMoney_invalidPayload() throws Exception {
+
+        UserPayloadRequest payload = new UserPayloadRequest();
+        payload.setAmount(0);
+        payload.setSender("xyz@");
+        payload.setReceiver("abc@");
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/transaction")
+                        .contentType("application/json")
+                        .content(objectMapper.writeValueAsString(payload)))
+                .andExpect(status().is4xxClientError())
+                .andExpect(jsonPath("$.amount", is("must be greater than 0")))
+                .andExpect(jsonPath("$.sender", is("must be a well-formed email address")))
+                .andExpect(jsonPath("$.receiver", is("must be a well-formed email address")));
+
+
+    }
 
     @AfterEach
     public void cleanUp() {

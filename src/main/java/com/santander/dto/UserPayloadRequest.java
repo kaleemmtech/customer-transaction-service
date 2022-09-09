@@ -1,10 +1,20 @@
 package com.santander.dto;
 
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 public class UserPayloadRequest implements Serializable {
+    @NotEmpty
+    @Email
     private String sender;
+    @NotEmpty
+    @Email
     private String receiver;
+    @NotNull
+    @DecimalMin(value = "0", inclusive = false)
     private double amount;
 
     public String getSender() {
